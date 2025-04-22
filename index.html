@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Вкусняшка House</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game">
+    <div class="logo">
+      <img src="img/logo.png" alt="Casino Slot Machine Logo">
+    </div>
+    
+    <div id="money">$1000</div>
+    
+    <div id="controls">
+      <label>Ставка:
+        <select id="bet-select">
+          <option value="50">$50</option>
+          <option value="100" selected>$100</option>
+          <option value="200">$200</option>
+        </select>
+      </label>
+      <button id="auto-spin">AutoЛудка: ВЫКЛ</button>
+    </div>
+    
+    <div id="jackpot">🎯 Вкусняшка: $<span id="jackpot-amount">500</span></div>
+    
+    <!-- ✅ Добавлено: Кнопка покупки бонуса -->
+    <div id="bonus-controls">
+      <button id="buy-bonus">Купить бонус(15ка)</button>
+      <div id="free-spins">Фри спин: 0</div>
+    </div>
+    
+    <div id="slot-machine">
+      <div id="row1" class="row"></div>
+      <div id="row2" class="row"></div>
+      <div id="row3" class="row"></div>
+    </div>
+    
+    <button id="spin">Залудить</button>
+    <div id="result"></div>
+  </div>
+
+  <audio id="background-music" src="sounds/3.mp3" loop preload="auto"></audio>
+  
+  <script src="script.js"></script>
+</body>
+</html>
+
+<link rel="icon" type="image/png" href="img/favicon.png">
+

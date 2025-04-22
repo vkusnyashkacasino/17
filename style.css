@@ -1,0 +1,172 @@
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #222;
+  color: white;
+  text-align: center;
+}
+
+#game {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+#money {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+#controls {
+  margin: 10px;
+}
+
+button {
+  background-color: #444;
+  color: white;
+  font-size: 1.2em;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:disabled {
+  background-color: #777;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.slot {
+  width: 100px;
+  height: 100px;
+  background-color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 5px;
+  border-radius: 10px;
+}
+
+.slot img {
+  width: 60px;
+  height: 60px;
+}
+
+#result {
+  font-size: 1.5em;
+  margin-top: 15px;
+  transition: all 0.3s ease;
+}
+
+#result.win {
+  color: #0f0;
+  text-shadow: 0 0 10px #0f0;
+}
+
+#result.lose {
+  color: #f00;
+  text-shadow: 0 0 10px #f00;
+}
+
+#jackpot {
+  font-size: 1.2em;
+  margin: 10px;
+  color: gold;
+}
+
+.slot.win {
+  border: 3px solid gold;
+  box-shadow: 0 0 15px gold;
+  animation: glow 1s infinite alternate;
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 10px gold; }
+  to { box-shadow: 0 0 20px #ffd700, 0 0 30px #ffa500; }
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
+}
+
+#spin.win-shake {
+  animation: shake 0.5s ease;
+}
+
+.money-fall {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 30px;
+  color: #0f0;
+  animation: fall 1.2s ease-in forwards;
+  pointer-events: none;
+}
+
+@keyframes fall {
+  0% {
+    top: 20%;
+    opacity: 1;
+  }
+  100% {
+    top: 90%;
+    opacity: 0;
+  }
+}
+
+/* Стили для логотипа */
+.logo h1 {
+  font-size: 36px; /* Уменьшаем размер текста */
+  text-align: center; /* Центрируем текст */
+  color: #FFD700; /* Цвет текста */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Тень */
+  margin-top: 20px; /* Отступ сверху */
+}
+
+/* Если ваш логотип — это изображение, можно сделать так: */
+.logo img {
+  width: 300px; /* Уменьшаем размер изображения */
+  height: auto; /* Сохраняем пропорции изображения */
+  display: block; /* Делает изображение блочным элементом */
+  margin: 0 auto; /* Центрирует изображение по горизонтали */
+}
+
+#buy-bonus {
+  position: fixed;
+  left: 350px;        /* отступ от левого края */
+  top: 50%;          /* 50% от высоты экрана */
+  transform: translateY(-50%); /* точно по центру */
+  
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: rgba(208, 0, 255, 0.452);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #8005cc;
+  transition: transform 0.2s, background-color 0.3s;
+  z-index: 999; /* поверх всего */
+}
+
+#buy-bonus:hover {
+  transform: translateY(-50%) scale(1.05);
+  background-color: #950486d2;
+}
+
+@keyframes bonus-pop {
+  0%   { transform: scale(0.5); opacity: 0; }
+  50%  { transform: scale(1.4); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+.slot img.bonus-anim {
+  animation: bonus-pop 0.5s ease-out;
+}
