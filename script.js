@@ -5,7 +5,7 @@ const MAX_BONUSES_PER_SPIN = 4;
 const BONUS_DROP_CHANCE    = 1 / 15;   
 const FREE_SPINS_COUNT     = 15;
 const SUPER_FREE_SPINS     = 17;
-const SUPER_BONUS_COST     = 96000;
+const SUPER_BONUS_COST     = 25000;
 const SUPER_MULTIPLIER     = 5;
 
 // =========================
