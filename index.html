@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Вкусняшка House</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="img/favicon.png">
 </head>
 <body>
   <div id="game">
@@ -27,9 +28,9 @@
     
     <div id="jackpot">🎯 Вкусняшка: $<span id="jackpot-amount">500</span></div>
     
-    <!-- ✅ Добавлено: Кнопка покупки бонуса -->
     <div id="bonus-controls">
       <button id="buy-bonus">Купить бонус(15ка)</button>
+      <button id="buy-super-bonus">Купить SUPER БОНУС(96ка)</button> <!-- ✅ ПЕРЕМЕЩЕНА СЮДА -->
       <div id="free-spins">Фри спин: 0</div>
     </div>
     
@@ -49,5 +50,12 @@
 </body>
 </html>
 
-<link rel="icon" type="image/png" href="img/favicon.png">
+<button id="telegram-btn" style="background: none; border: none; cursor: pointer;">
+  <img src="img/tg.png" alt="Telegram" style="width: 240px; height: 64px;">
+</button>
 
+<script>
+  document.getElementById("telegram-btn").addEventListener("click", () => {
+    window.open("https://t.me/thevkusnohouse", "_blank");
+  });
+</script>

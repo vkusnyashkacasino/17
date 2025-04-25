@@ -4,6 +4,9 @@
 const MAX_BONUSES_PER_SPIN = 4;
 const BONUS_DROP_CHANCE    = 1 / 15;   
 const FREE_SPINS_COUNT     = 15;
+const SUPER_FREE_SPINS     = 17;
+const SUPER_BONUS_COST     = 96000;
+const SUPER_MULTIPLIER     = 5;
 
 // =========================
 //      ПЕРЕМЕННЫЕ И ЗВУКИ
@@ -17,7 +20,7 @@ const symbols = [
   { name: "bonus",   img: "img/bonus.png",  payout: 0 }
 ];
 
-let balance         = 25000;
+let balance         = 96000;
 let currentBet      = 100;
 let jackpot         = 500;
 let freeSpins       = 0;
@@ -25,6 +28,7 @@ let bonusTriggered  = false;
 let isSpinning      = false;
 let isAutoSpin      = false;
 let autoSpinInterval= null;
+let superMode       = false;
 
 const sounds = {
   spin:  new Audio("sounds/spin.mp3"),
@@ -52,7 +56,17 @@ function updateJackpot() {
   document.getElementById("jackpot-amount").textContent = jackpot;
 }
 function updateFreeSpins() {
-  document.getElementById("free-spins").textContent = `Бесплатные вращения: ${freeSpins}`;
+  const freeSpinsEl = document.getElementById("free-spins");
+
+  if (freeSpins > 0) {
+    const label = superMode ? `SUPER Фриспины: ${freeSpins}` : `Бесплатные вращения: ${freeSpins}`;
+    freeSpinsEl.textContent = label;
+    freeSpinsEl.style.display = 'block'; // Показываем элемент, если есть фриспины
+  } else {
+    freeSpinsEl.style.display = 'none'; // Скрываем элемент, если фриспинов нет
+  }
+
+  document.body.classList.toggle("super-mode", superMode);
 }
 function clearSlots() {
   for (let i = 1; i <= 3; i++) {
@@ -78,7 +92,6 @@ function showMoneyFall(text) {
 // =========================
 function getRandomSymbol() {
   if (freeSpins > 0) {
-    // Исключаем бонус во время фриспинов
     const nonBonusSymbols = symbols.filter(s => s.name !== "bonus");
     if (Math.random() < 0.4) {
       const pick = Math.random() < 0.5 ? "bar" : "seven";
@@ -107,6 +120,11 @@ function spin() {
   if (freeSpins > 0) {
     freeSpins--;
     updateFreeSpins();
+    if (freeSpins === 0) {
+      superMode = false; // 💥 Сброс супер-режима
+      updateFreeSpins(); // обновим текст
+    }
+
   } else {
     balance -= currentBet;
     jackpot += Math.floor(currentBet * 0.1);
@@ -151,6 +169,7 @@ function spin() {
     if (bonusCountThisSpin >= 3 && !bonusTriggered) {
       bonusTriggered = true;
       freeSpins = FREE_SPINS_COUNT;
+      superMode = false;
       updateFreeSpins();
       sounds.bonus.play().catch(() => {});
       showResult(`БОНУС! ${FREE_SPINS_COUNT} фриспинов!`, "bonus");
@@ -171,8 +190,10 @@ function checkWin(rows) {
     for (let i = 0; i <= 2; i++) {
       if (row[i] && row[i] === row[i+1] && row[i] === row[i+2]) {
         const sym = symbols.find(s => s.name === row[i]);
+        const baseWin = sym.payout * 100;
         const mult = sym.multiplier || 1;
-        totalWin += sym.payout * 100 * mult;
+        const win = baseWin * mult * (superMode ? SUPER_MULTIPLIER : 1);
+        totalWin += win;
 
         const rowEl = document.getElementById(`row${rIdx+1}`);
         [i, i+1, i+2].forEach(c => rowEl.children[c].classList.add("win"));
@@ -187,7 +208,7 @@ function checkWin(rows) {
     sounds.win.play().catch(() => {});
     showMoneyFall(`+$${totalWin}`);
   } else {
-    showResult("Забавный факт: 90 процентов игроков в казино перестают играть прямо перед тем как сорвут большой куш.", "lose");
+    showResult("90 процентов лудоманов перестают играть прямо перед выигрышем", "lose");
     sounds.lose.play().catch(() => {});
   }
 }
@@ -201,6 +222,7 @@ function buyBonus() {
     balance -= cost;
     freeSpins = FREE_SPINS_COUNT;
     bonusTriggered = true;
+    superMode = false;
     updateBalance();
     updateFreeSpins();
     sounds.bonus.play().catch(() => {});
@@ -211,10 +233,29 @@ function buyBonus() {
 }
 
 // =========================
+//     SUPER BONUS
+// =========================
+function buySuperBonus() {
+  if (balance >= SUPER_BONUS_COST) {
+    balance -= SUPER_BONUS_COST;
+    freeSpins = SUPER_FREE_SPINS;
+    superMode = true;
+    bonusTriggered = true;
+    updateBalance();
+    updateFreeSpins();
+    sounds.bonus.play().catch(() => {});
+    showResult(`SUPER БОНУС! ${SUPER_FREE_SPINS} фриспинов с x${SUPER_MULTIPLIER}!`, "bonus");
+  } else {
+    showResult("Недостаточно на супер бонус!", "lose");
+  }
+}
+
+// =========================
 //      EVENT LISTENERS
 // =========================
 document.getElementById("spin").addEventListener("click", spin);
 document.getElementById("buy-bonus").addEventListener("click", buyBonus);
+document.getElementById("buy-super-bonus").addEventListener("click", buySuperBonus);
 
 document.getElementById("bet-select").addEventListener("change", () => {
   currentBet = parseInt(document.getElementById("bet-select").value, 10);
