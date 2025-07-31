@@ -20,7 +20,7 @@ const symbols = [
   { name: "bonus",   img: "img/bonus.png",  payout: 0 }
 ];
 
-let balance         = 250000;
+let balance         = 25000;
 let currentBet      = 100;
 let jackpot         = 500;
 let freeSpins       = 0;
