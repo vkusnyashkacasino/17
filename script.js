@@ -12,7 +12,7 @@ const SUPER_MULTIPLIER     = 5;
 //      ПЕРЕМЕННЫЕ И ЗВУКИ
 // =========================
 const symbols = [
-  { name: "cherry",  img: "img/cherry.png", payout: 2 },
+  { name: "cherry",  img: "img/lean.png", payout: 2 },
   { name: "lemon",   img: "img/lemon.png",  payout: 3 },
   { name: "seven",   img: "img/seven.png",  payout: 10, multiplier: 1.5 },
   { name: "bell",    img: "img/bell.png",   payout: 5 },
