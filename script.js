@@ -30,6 +30,8 @@ let isAutoSpin      = false;
 let autoSpinInterval= null;
 let superMode       = false;
 
+let superVideoPlaying = false;
+
 const sounds = {
   spin:  new Audio("sounds/spin.mp3"),
   win:   new Audio("sounds/win.mp3"),
@@ -61,12 +63,27 @@ function updateFreeSpins() {
   if (freeSpins > 0) {
     const label = superMode ? `SUPER Фриспины: ${freeSpins}` : `Бесплатные вращения: ${freeSpins}`;
     freeSpinsEl.textContent = label;
-    freeSpinsEl.style.display = 'block'; // Показываем элемент, если есть фриспины
+    freeSpinsEl.style.display = 'block'; // показываем
   } else {
-    freeSpinsEl.style.display = 'none'; // Скрываем элемент, если фриспинов нет
+    freeSpinsEl.style.display = 'none'; // скрываем
   }
 
   document.body.classList.toggle("super-mode", superMode);
+
+  // Управляем видео супер-бонуса
+  const bgVideo = document.getElementById("superVideo");
+  if (superMode && !superVideoPlaying) {
+    if(bgVideo){
+      bgVideo.style.display = "block";
+      superVideoPlaying = true;
+    }
+  }
+  if (!superMode && superVideoPlaying) {
+    if(bgVideo){
+      bgVideo.style.display = "none";
+      superVideoPlaying = false;
+    }
+  }
 }
 function clearSlots() {
   for (let i = 1; i <= 3; i++) {
@@ -121,10 +138,9 @@ function spin() {
     freeSpins--;
     updateFreeSpins();
     if (freeSpins === 0) {
-      superMode = false; // 💥 Сброс супер-режима
-      updateFreeSpins(); // обновим текст
+      superMode = false; // сброс супер-режима
+      updateFreeSpins();
     }
-
   } else {
     balance -= currentBet;
     jackpot += Math.floor(currentBet * 0.1);
@@ -132,7 +148,7 @@ function spin() {
   updateBalance();
   updateJackpot();
 
-  sounds.spin.play().catch(() => {/* игнор */});
+  sounds.spin.play().catch(() => {});
   clearSlots();
 
   const allRows = [];
@@ -208,7 +224,25 @@ function checkWin(rows) {
     sounds.win.play().catch(() => {});
     showMoneyFall(`+$${totalWin}`);
   } else {
-    showResult("90 процентов лудоманов перестают играть прямо перед выигрышем", "lose");
+    const loseMessages = [
+      "90% лудоманов сдаются перед заносом!",
+      "Ну еще пару спинчиков",
+      "Ну почти:(",
+      "Додеп!",
+      "Ну это уже рядом с заносом!",
+      "Котик ушёл помурчать, жди обратно.",
+      "Старина ушёл есть пицку, жди обратно.",
+      "Чиловый на параше зависает, жди обратно.",
+      "Слот на прогреве!",
+      "Зато прогрел!",
+      "Сейчас бы бонуску купить...",
+      "Сильно прогрел можно и додепнуть",
+      "Чтобы выдавало нужно мяукать!",
+      "Чтобы выдавало нужно есть пицку",
+      "Ставка была слишком маленькая для ЗАНОСА!"
+    ];
+    const randomLoseMsg = loseMessages[Math.floor(Math.random() * loseMessages.length)];
+    showResult(randomLoseMsg, "lose");
     sounds.lose.play().catch(() => {});
   }
 }
@@ -246,7 +280,7 @@ function buySuperBonus() {
     sounds.bonus.play().catch(() => {});
     showResult(`SUPER БОНУС! ${SUPER_FREE_SPINS} фриспинов с x${SUPER_MULTIPLIER}!`, "bonus");
   } else {
-    showResult("Недостаточно на супер бонус!", "lose");
+    showResult("не хватает на чизбушку", "lose");
   }
 }
 
@@ -281,3 +315,10 @@ document.getElementById("auto-spin").addEventListener("click", () => {
 updateBalance();
 updateJackpot();
 updateFreeSpins();
+
+// Пример: если победила строка row1
+document.getElementById('row1').classList.add('win-white');
+// если победила строка row2
+document.getElementById('row2').classList.add('win-blue');
+// если победила строка row3
+document.getElementById('row3').classList.add('win-red');

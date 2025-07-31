@@ -4,13 +4,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Вкусняшка House</title>
-  <link rel="stylesheet" href="style.css?v=1.96">
+  <link rel="stylesheet" href="style.css?v=2.0">
+  <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="img/favicon.png">
 </head>
 <body>
+
+<!-- Затемнённый фон + модалка -->
+<div id="disclaimer-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.7); display: flex; justify-content: center; align-items: center; z-index: 9999;">
+  <div style="background: rgb(83, 78, 78); padding: 30px; max-width: 600px; border-radius: 12px; text-align: center;">
+    <h2>Отказ от ответственности</h2>
+    <p style="margin-top: 10px;">
+      Проект «The Вкусняшка House» не имеет никакого отношения к азартным играм, ставкам, выводам и иным реальным денежным операциям.<br><br>
+Вся внутриигровая валюта и функциональность созданы исключительно в рамках социального некоммерческого эксперимента и используются только в развлекательных целях.<br><br>
+Мы не поощряем и не пропагандируем лудоманию, азартные игры или финансовые риски, связанные с ней.<br><br>
+На сайте отсутствуют кнопки «пополнить» и «вывести» — всё игровое взаимодействие ограничено исключительно в рамках симуляции.<br><br>
+Все персонажи, события и механики — вымышленные. Совпадения с реальностью случайны.<br><br>
+Нажимая кнопку «Согласен», вы подтверждаете, что вам исполнилось 18 лет, что вы вкусняхины и вы соглашаетесь с тем, что разработчики проекта не несут ответственности за возможные последствия использования сайта.<br><br>
+Также, нажимая кнопку, вы соглашаетесь со всем вышеуказанным.
+    <button id="agreeDisclaimer" style="margin-top: 20px; padding: 10px 20px; font-size: 16px;">Согласен</button>
+  </div>
+</div>
+
+<script>
+  const overlay = document.getElementById('disclaimer-overlay');
+  const agreeBtn = document.getElementById('agreeDisclaimer');
+
+  if (localStorage.getItem('vk-consent') === 'yes') {
+    overlay.style.display = 'none';
+  }
+
+  agreeBtn.addEventListener('click', () => {
+    localStorage.setItem('vk-consent', 'yes');
+    overlay.style.display = 'none';
+  });
+</script>
+
   <div id="game">
     <div class="logo">
-      <img src="img/logo.png" alt="vluslandya">
+      <img src="img/logo.png" alt="Casino Slot Machine Logo">
     </div>
     
     <div id="money">$1000</div>
@@ -59,3 +92,27 @@
     window.open("https://t.me/thevkusnohouse", "_blank");
   });
 </script>
+
+<button id="youtube-btn" style="background: none; border: none; cursor: pointer;">
+  <img src="img/youtube.png" alt="YouTube" style="width: 240px; height: 64px;">
+</button>
+
+<script>
+  document.getElementById("youtube-btn").addEventListener("click", () => {
+    window.open("https://www.youtube.com/@JohnPistoletov/shorts", "_blank");
+  });
+</script>
+
+<button id="tiktok-btn" style="background: none; border: none; cursor: pointer;">
+  <img src="img/tiktok.png" alt="TikTok" style="width: 240px; height: 64px;">
+</button>
+
+<script>
+  document.getElementById("tiktok-btn").addEventListener("click", () => {
+    window.open("https://www.tiktok.com/@thevkusnohouse", "_blank");
+  });
+</script>
+
+<video id="superVideo" autoplay muted loop style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:-1; object-fit:cover;">
+  <source src="img/superbonus.mp4" type="video/mp4">
+</video>

@@ -78,17 +78,6 @@ button:disabled {
   color: gold;
 }
 
-.slot.win {
-  border: 3px solid gold;
-  box-shadow: 0 0 15px gold;
-  animation: glow 1s infinite alternate;
-}
-
-@keyframes glow {
-  from { box-shadow: 0 0 10px gold; }
-  to { box-shadow: 0 0 20px #ffd700, 0 0 30px #ffa500; }
-}
-
 @keyframes shake {
   0% { transform: translateX(0); }
   25% { transform: translateX(-5px); }
@@ -164,15 +153,59 @@ button:disabled {
   animation: bonus-pop 0.5s ease-out;
 }
 
-body.super-mode {
-  background: linear-gradient(45deg, #ffffff, #0015ff, #ff0000);
-  background-size: 400% 400%;
-  animation: rainbowBackground 10s ease infinite;
-}
-
 @keyframes rainbowBackground {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
+body {
+  background: url('img/background.png') center center / cover no-repeat fixed;
+  /* fixed — чтобы фон не двигался при прокрутке, если есть */
+  margin: 0;
+  padding: 0;
+}
+
+.row.win-white .slot.win {
+  border: 3px solid white;
+  box-shadow: 0 0 15px white;
+  animation: glowWhite 1s infinite alternate;
+}
+
+.row.win-blue .slot.win {
+  border: 3px solid #00f;
+  box-shadow: 0 0 15px #00f;
+  animation: glowBlue 1s infinite alternate;
+}
+
+.row.win-red .slot.win {
+  border: 3px solid red;
+  box-shadow: 0 0 15px red;
+  animation: glowRed 1s infinite alternate;
+}
+
+@keyframes glowWhite {
+  from { box-shadow: 0 0 10px white; }
+  to { box-shadow: 0 0 20px white, 0 0 30px #ccc; }
+}
+
+@keyframes glowBlue {
+  from { box-shadow: 0 0 10px #00f; }
+  to { box-shadow: 0 0 20px #00f, 0 0 30px #66f; }
+}
+
+@keyframes glowRed {
+  from { box-shadow: 0 0 10px red; }
+  to { box-shadow: 0 0 20px red, 0 0 30px #f66; }
+}
+
+#super-bonus-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+  pointer-events: none;
+}
